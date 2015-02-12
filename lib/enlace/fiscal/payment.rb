@@ -15,15 +15,12 @@ module Enlace
       end
 
       def valid?
-        (attributes - [:account_number]).each do |attr|
-          value = send(attr)
-          add_error(attr, "can't be blank") if value.blank?
-        end
+        validate_required *(attributes - [:account_number])
 
         add_error(:payment_method, 'invalid option') if valid_payment_option?
         add_error(:account_number, "can't be blank") if account_number_required?
 
-        errors.empty?
+        super
       end
 
       private

@@ -4,36 +4,11 @@ describe Enlace::Fiscal::Invoice do
   let(:invoice) { Enlace::Fiscal::Invoice.new }
 
   describe 'has attributes' do
-    it '#serie' do
-      invoice.must_respond_to :serie
-    end
-
-    it '#folio' do
-      invoice.must_respond_to :folio
-    end
-
-    it '#date' do
-      invoice.must_respond_to :date
-    end
-
-    it '#subtotal' do
-      invoice.must_respond_to :subtotal
-    end
-
-    it '#total' do
-      invoice.must_respond_to :total
-    end
-
-    it '#rfc' do
-      invoice.must_respond_to :rfc
-    end
-
-    it '#valid?' do
-      invoice.must_respond_to :valid?
-    end
-
-    it '#payment' do
-      invoice.must_respond_to :payment
+    [:serie, :folio, :date, :subtotal, :total, :rfc, :valid?,
+     :payment, :receptor].each do |attribute|
+      it "##{attribute.to_s}" do
+        invoice.must_respond_to attribute
+      end
     end
   end
 

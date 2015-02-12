@@ -4,20 +4,10 @@ describe Enlace::Fiscal::Payment do
   let(:payment) { Enlace::Fiscal::Payment.new }
 
   describe 'has attributes' do
-    it '#payment_method' do
-      payment.must_respond_to :payment_method
-    end
-
-    it '#account_number' do
-      payment.must_respond_to :account_number
-    end
-
-    it '#details' do
-      payment.must_respond_to :details
-    end
-
-    it '#valid?' do
-      payment.must_respond_to :valid?
+    [:payment_method, :account_number, :details].each do |attribute|
+      it "##{attribute.to_s}" do
+        payment.must_respond_to attribute
+      end
     end
   end
 

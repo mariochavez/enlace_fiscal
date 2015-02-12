@@ -3,6 +3,8 @@ module Enlace
     autoload :Blank,  'enlace/fiscal/refinements/blank'
     autoload :Client,  'enlace/fiscal/client'
     autoload :Service,  'enlace/fiscal/service'
+
+    autoload :Receptor,  'enlace/fiscal/receptor'
     autoload :Payment,  'enlace/fiscal/payment'
     autoload :Invoice,  'enlace/fiscal/invoice'
     autoload :Entity,  'enlace/fiscal/entity'
