@@ -1,5 +1,6 @@
 module Enlace
   module Fiscal
-    VERSION = '0.0.1'
+    class Service
+    end
   end
 end
