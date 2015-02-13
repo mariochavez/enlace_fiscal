@@ -16,8 +16,8 @@ module Enlace
 
       def valid?
         validate_required *(attributes - [:account_number])
+        validate_option PAYMENT_METHODS, :payment_method
 
-        add_error(:payment_method, 'invalid option') if valid_payment_option?
         add_error(:account_number, "can't be blank") if account_number_required?
 
         super
@@ -28,10 +28,6 @@ module Enlace
         required = (PAYMENT_METHODS - [:cash]).include?(self.payment_method)
         return true if self.account_number.blank? && required
         false
-      end
-
-      def valid_payment_option?
-        !PAYMENT_METHODS.include?(self.payment_method)
       end
     end
   end

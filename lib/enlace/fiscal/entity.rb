@@ -49,9 +49,33 @@ module Enlace
             }
           end
         end
+
+        def has_many(*list)
+          list.each do |relation|
+            define_method(relation.to_s) {
+              ivar = instance_variable_get("@#{relation.to_s}")
+              if ivar.nil?
+                ivar = [Object.const_get("Enlace::Fiscal::#{singularize(relation.to_s).capitalize}").new]
+                instance_variable_set("@#{relation.to_s}", ivar)
+              end
+
+              ivar
+            }
+          end
+        end
       end
 
       protected
+      def singularize(text)
+        new_text = text.gsub(/ies$/, 'y')
+        new_text.gsub(/s$/, '')
+      end
+
+      def validate_option(options, attribute)
+        value = send(attribute)
+        add_error(attribute, 'invalid option') if !options.include?(value)
+      end
+
       def validate_required(*list)
         list.each do |attribute|
           value = send(attribute)
@@ -63,6 +87,13 @@ module Enlace
         list.each do |attribute|
           value = send(attribute).to_i
           add_error(attribute, "can't be less than zero") if value < 0
+        end
+      end
+
+      def validate_equal_or_less_than_zero(*list)
+        list.each do |attribute|
+          value = send(attribute).to_i
+          add_error(attribute, 'must be greater than zero') if value <= 0
         end
       end
 

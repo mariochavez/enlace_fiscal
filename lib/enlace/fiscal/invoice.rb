@@ -8,6 +8,7 @@ module Enlace
       def_attributes :serie, :folio, :date, :subtotal, :total, :rfc
 
       has_one :payment, :receptor
+      has_many :lines
 
       def valid?
         validate_required *attributes

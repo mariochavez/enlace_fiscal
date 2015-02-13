@@ -5,7 +5,7 @@ describe Enlace::Fiscal::Invoice do
 
   describe 'has attributes' do
     [:serie, :folio, :date, :subtotal, :total, :rfc, :valid?,
-     :payment, :receptor].each do |attribute|
+     :payment, :receptor, :lines].each do |attribute|
       it "##{attribute.to_s}" do
         invoice.must_respond_to attribute
       end
