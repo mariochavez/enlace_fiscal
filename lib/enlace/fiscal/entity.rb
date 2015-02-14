@@ -8,7 +8,11 @@ module Enlace
       end
 
       def attributes
-        self.class.attributes ||= {}
+        self.class.attributes ||= []
+      end
+
+      def relations
+        self.class.relations ||= []
       end
 
       def valid?
@@ -26,7 +30,7 @@ module Enlace
       end
 
       class << self
-        attr_reader :attributes
+        attr_reader :attributes, :relations
 
         def def_attributes(*list)
           self.class_eval do
@@ -37,7 +41,11 @@ module Enlace
         end
 
         def has_one(*list)
+          @relations ||= []
+
           list.each do |relation|
+            @relations << relation
+
             define_method(relation.to_s) {
               ivar = instance_variable_get("@#{relation.to_s}")
               if ivar.nil?
@@ -51,7 +59,11 @@ module Enlace
         end
 
         def has_many(*list)
+          @relations ||= []
+
           list.each do |relation|
+            @relations << relation
+
             define_method(relation.to_s) {
               ivar = instance_variable_get("@#{relation.to_s}")
               if ivar.nil?

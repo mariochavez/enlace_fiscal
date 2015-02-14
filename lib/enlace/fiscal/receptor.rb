@@ -12,6 +12,8 @@ module Enlace
       end
 
       def valid?
+        @errors = {}
+
         validate_required :name, :rfc, :street, :state, :country
         validate_rfc_format :rfc
         validate_rfc_length :rfc

@@ -34,6 +34,8 @@ module Enlace
       end
 
       def valid?
+        @errors = {}
+
         validate_required *attributes
         validate_less_than_zero :subtotal, :total, :tax_translated_total,
           :tax_retained_total

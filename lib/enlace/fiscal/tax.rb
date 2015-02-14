@@ -7,6 +7,8 @@ module Enlace
       KINDS = [:retained, :translated]
 
       def valid?
+        @errors = {}
+
         validate_less_than_zero :total, :rate
         validate_option TAXES, :type
         validate_option KINDS, :kind

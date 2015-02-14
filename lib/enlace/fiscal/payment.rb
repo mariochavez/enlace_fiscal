@@ -15,6 +15,8 @@ module Enlace
       end
 
       def valid?
+        @errors = {}
+
         validate_required *(attributes - [:account_number])
         validate_option PAYMENT_METHODS, :payment_method
 
