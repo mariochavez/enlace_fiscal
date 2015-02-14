@@ -1,7 +1,16 @@
 require 'test_helper'
 
 describe Enlace::Fiscal::Invoice do
-  let(:invoice) { Enlace::Fiscal::Invoice.new }
+  let(:invoice) {
+    Enlace::Fiscal::Invoice.new.tap do |i|
+      i.serie = 'GA'
+      i.folio = 1
+      i.date = Date.today
+      i.subtotal = 1.0
+      i.total = 1.0
+      i.rfc = 'RFCT800101TR4'
+    end
+  }
 
   describe 'has attributes' do
     [:serie, :folio, :date, :subtotal, :total, :rfc, :valid?,
@@ -14,30 +23,18 @@ describe Enlace::Fiscal::Invoice do
 
   describe 'validations' do
     it 'is valid' do
-      invoice.tap do |i|
-        i.serie = 'GA'
-        i.folio = 1
-        i.date = Date.today
-        i.subtotal = 1.0
-        i.total = 1.0
-        i.rfc = 'RFCT800101TR4'
-      end
 
       invoice.must_be :valid?
     end
 
     it 'is invalid' do
-      invoice.wont_be :valid?
+      Enlace::Fiscal::Invoice.new.wont_be :valid?
     end
 
     it 'is invalid when subtotal or total is less than zero' do
       invoice.tap do |i|
-        i.serie = 'GA'
-        i.folio = 1
-        i.date = Date.today
         i.subtotal = -1.0
         i.total = -1.0
-        i.rfc = 'RFCT800101TR4'
       end
 
       invoice.wont_be :valid?
@@ -45,31 +42,32 @@ describe Enlace::Fiscal::Invoice do
     end
 
     it 'is invalid if rfc format is invalid' do
-      invoice.tap do |i|
-        i.serie = 'GA'
-        i.folio = 1
-        i.date = Date.today
-        i.subtotal = 1.0
-        i.total = 1.0
-        i.rfc = 'RFC'
-      end
+      invoice.rfc = 'RFC'
 
       invoice.wont_be :valid?
       invoice.errors.size.must_equal 1
     end
 
     it 'is invalid if rfc length is invalid' do
-      invoice.tap do |i|
-        i.serie = 'GA'
-        i.folio = 1
-        i.date = Date.today
-        i.subtotal = 1.0
-        i.total = 1.0
-        i.rfc = 'RFCT800101TR478'
-      end
+      invoice.rfc = 'RFCT800101TR478'
 
       invoice.wont_be :valid?
       invoice.errors.size.must_equal 1
+    end
+  end
+
+  describe 'lines' do
+    it 'add' do
+      invoice.add_line
+
+      invoice.lines.length.must_equal 2
+    end
+
+    it 'delete' do
+      invoice.add_line
+      invoice.delete_at(1)
+
+      invoice.lines.length.must_equal 1
     end
   end
 end
