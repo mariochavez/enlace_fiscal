@@ -90,4 +90,53 @@ describe Enlace::Fiscal::Invoice do
       invoice.taxes.length.must_equal 1
     end
   end
+
+  describe 'global valid' do
+    it 'is invalid' do
+      invoice.wont_be :valid_all?
+
+      invoice.errors.length.must_equal 14
+    end
+
+    it 'is valid' do
+      invoice.tap do |i|
+        i.serie = 'GA'
+        i.folio = 1
+        i.date = Date.today
+        i.subtotal = 1.0
+        i.total = 1.0
+        i.tax_translated_total = 0
+        i.tax_retained_total = 0
+        i.rfc = 'RFCT800101TR4'
+
+        i.payment.tap do |p|
+          p.account_number = '1123'
+        end
+
+        i.receptor.tap do |r|
+          r.name = 'Client'
+          r.rfc = 'TRYD850610YUI'
+          r.street = 'Known street'
+          r.state = 'Known state'
+        end
+
+        i.lines.first.tap do |l|
+          l.quantity = 1
+          l.unit = :piece
+          l.description = 'Sample product'
+          l.unit_price = 10
+          l.total = 10
+        end
+
+        i.taxes.first.tap do |t|
+          t.type = :iva
+          t.kind = :retained
+          t.total = 1.6
+          t.rate = 16
+        end
+      end
+
+      invoice.must_be :valid_all?
+    end
+  end
 end
