@@ -68,6 +68,7 @@ module Enlace
       protected
       def singularize(text)
         new_text = text.gsub(/ies$/, 'y')
+        new_text = new_text.gsub(/xes$/, 'x')
         new_text.gsub(/s$/, '')
       end
 

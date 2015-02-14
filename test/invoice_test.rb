@@ -8,13 +8,16 @@ describe Enlace::Fiscal::Invoice do
       i.date = Date.today
       i.subtotal = 1.0
       i.total = 1.0
+      i.tax_translated_total = 0
+      i.tax_retained_total = 0
       i.rfc = 'RFCT800101TR4'
     end
   }
 
   describe 'has attributes' do
     [:serie, :folio, :date, :subtotal, :total, :rfc, :valid?,
-     :payment, :receptor, :lines].each do |attribute|
+     :payment, :receptor, :lines, :taxes, :tax_retained_total,
+     :tax_translated_total].each do |attribute|
       it "##{attribute.to_s}" do
         invoice.must_respond_to attribute
       end
@@ -35,10 +38,12 @@ describe Enlace::Fiscal::Invoice do
       invoice.tap do |i|
         i.subtotal = -1.0
         i.total = -1.0
+        i.tax_translated_total = -1.0
+        i.tax_retained_total = -1.0
       end
 
       invoice.wont_be :valid?
-      invoice.errors.size.must_equal 2
+      invoice.errors.size.must_equal 4
     end
 
     it 'is invalid if rfc format is invalid' do
@@ -65,9 +70,24 @@ describe Enlace::Fiscal::Invoice do
 
     it 'delete' do
       invoice.add_line
-      invoice.delete_at(1)
+      invoice.delete_line_at(1)
 
       invoice.lines.length.must_equal 1
+    end
+  end
+
+  describe 'taxes' do
+    it 'add' do
+      invoice.add_tax
+
+      invoice.taxes.length.must_equal 2
+    end
+
+    it 'delete' do
+      invoice.add_tax
+      invoice.delete_tax_at(1)
+
+      invoice.taxes.length.must_equal 1
     end
   end
 end
