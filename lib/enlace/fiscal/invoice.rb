@@ -44,6 +44,40 @@ module Enlace
 
         super
       end
+
+      def valid_all?
+        valid?
+
+        relations.each do |relation|
+          name = relation.to_s
+          value = send(relation)
+
+          if value.is_a?(Array)
+            value.each_with_index do |val, index|
+              add_relation_errors name, val, index
+            end
+          else
+            add_relation_errors name, value
+          end
+        end
+
+        @errors.empty?
+      end
+
+      private
+      def add_relation_errors(relation_name, value, index = nil)
+        value.valid?
+
+        value.errors.each_pair do |attr, error|
+          attr_error_name = if index.nil?
+                              "#{relation_name}_#{attr.to_s}".to_sym
+                            else
+                              "#{relation_name}_#{index}_#{attr.to_s}".to_sym
+                            end
+
+          add_error(attr_error_name, error.first)
+        end
+      end
     end
   end
 end

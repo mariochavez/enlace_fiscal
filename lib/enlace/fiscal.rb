@@ -1,5 +1,7 @@
 module Enlace
   module Fiscal
+    ::EF = Enlace::Fiscal unless defined?(::EF)
+
     autoload :Blank,  'enlace/fiscal/refinements/blank'
     autoload :Client,  'enlace/fiscal/client'
     autoload :Service,  'enlace/fiscal/service'
