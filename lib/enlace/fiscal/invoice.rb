@@ -86,10 +86,10 @@ module Enlace
             'totalImpuestosRetenidos' => format_decimal(tax_retained_total),
             'totalImpuestosTrasladados' => format_decimal(tax_translated_total),
             'Retenciones' => {
-              'Retencion' => []
+              'Retencion' => taxes.select{ |tax| tax.kind == :retained }.map{ |tax| tax.to_h }
             },
             'Traslados' => {
-              'Traslado' => []
+              'Traslado' => taxes.select{ |tax| tax.kind == :translated }.map{ |tax| tax.to_h }
             }
           }
         }
