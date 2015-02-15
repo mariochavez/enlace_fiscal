@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Enlace::Fiscal::VERSION
   spec.authors       = ["Mario A Chavez"]
   spec.email         = ["mario.chavez@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Enlace Fiscal API Client}
+  spec.description   = %q{Client for REST API to generate Mexcan CFDi}
+  spec.homepage      = "https://github.com/mariochavez/enlace_fiscal"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

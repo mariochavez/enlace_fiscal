@@ -1,6 +1,10 @@
-# Enlace::Fiscal
+# Enlace Fiscal API Client
 
-TODO: Write a gem description
+[Enlace Fiscal](http://www.enlacefiscal.com/) is Mexican service to generate CFDi to report mexican taxes.
+
+This API client helps to generate json document with Enlace Fiscal specs and to
+communite with their REST API. For more information about Enlace Fiscal API
+visit [API](https://ayuda.enlacefiscal.com/api/v5/timbrado-cfdi.php) page.
 
 ## Installation
 
