@@ -64,6 +64,37 @@ module Enlace
         @errors.empty?
       end
 
+      def to_h
+        {
+          'modo' => EF.mode,
+          'versionEF' => EF.version,
+          'serie' => serie,
+          'folioInterno' => folio,
+          'fechaEmision' => format_date(DateTime.now),
+          'subTotal' => format_decimal(subtotal),
+          'descuentos' => format_decimal(0),
+          'total' => format_decimal(total),
+          'numeroDecimales' => DECIMALS,
+          'tipoMoneda' => CURRENCY,
+          'rfc' => rfc,
+          'DatosDePago' => payment.to_h,
+          'Receptor' => receptor.to_h,
+          'Partidas' => {
+            'Partida' => lines.map{|line| line.to_h}
+          },
+          'Impuestos' => {
+            'totalImpuestosRetenidos' => format_decimal(tax_retained_total),
+            'totalImpuestosTrasladados' => format_decimal(tax_translated_total),
+            'Retenciones' => {
+              'Retencion' => []
+            },
+            'Traslados' => {
+              'Traslado' => []
+            }
+          }
+        }
+      end
+
       private
       def add_relation_errors(relation_name, value, index = nil)
         value.valid?

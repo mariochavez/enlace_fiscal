@@ -5,6 +5,13 @@ module Enlace
         :unit_price, :total
 
       UNITS = [:piece, :na]
+      UNIT_LOOKUP = { piece: 'pieza', na: 'No aplica' }
+
+      def initialize
+        super
+
+        self.unit = :piece
+      end
 
       def valid?
         @errors = {}
@@ -14,6 +21,17 @@ module Enlace
         validate_option UNITS, :unit
 
         super
+      end
+
+      def to_h
+        {
+          'cantidad' => quantity,
+          'unidad' => UNIT_LOOKUP[unit],
+          'descripcion' => description,
+          'noIdentificacion' => sku,
+          'valorUnitario' => format_decimal(unit_price),
+          'importe' => format_decimal(total)
+        }
       end
     end
   end

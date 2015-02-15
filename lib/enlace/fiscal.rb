@@ -6,6 +6,8 @@ module Enlace
     autoload :Client,  'enlace/fiscal/client'
     autoload :Service,  'enlace/fiscal/service'
 
+    autoload :Format,  'enlace/fiscal/format'
+
     autoload :Tax,  'enlace/fiscal/tax'
     autoload :Line,  'enlace/fiscal/line'
     autoload :Receptor,  'enlace/fiscal/receptor'

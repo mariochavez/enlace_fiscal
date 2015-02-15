@@ -20,6 +20,24 @@ module Enlace
 
         super
       end
+
+      def to_h
+        {
+          'rfc' => rfc,
+          'nombre' => name,
+          'DomicilioFiscal' => {
+            'calle' => street,
+            'noExterior' => ext_number,
+            'noInterior' => int_number,
+            'colonia' => neighborhood,
+            'localidad' => locality,
+            'municipio' => municipality,
+            'estado' => state,
+            'pais' => country,
+            'cp' => postal_code
+          }
+        }
+      end
     end
   end
 end

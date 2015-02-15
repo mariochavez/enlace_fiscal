@@ -2,6 +2,7 @@ module Enlace
   module Fiscal
     class Entity
       using Enlace::Fiscal::Blank
+      include Enlace::Fiscal::Format
 
       def initialize
         @errors = {}
